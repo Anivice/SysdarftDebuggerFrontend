@@ -227,3 +227,10 @@ install(TARGETS Sysdarft
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(Sysdarft)
 endif()
+
+if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
+    add_custom_target(STRIP_ALL ALL
+            COMMAND strip Sysdarft
+            DEPENDS Sysdarft
+            COMMENT "Stripping symbols...")
+endif ()

@@ -2,13 +2,15 @@
 #include "ui_dialogconnect.h"
 #include "sysdarft.h"
 
-DialogConnect::DialogConnect(QWidget *parent_)
+DialogConnect::DialogConnect(const std::string & content_, QWidget *parent_)
     : QDialog(parent_)
     , ui(new Ui::DialogConnect)
 {
     ui->setupUi(this);
     assert(parent_ != nullptr);
     this->parent = (Sysdarft*)parent_;
+    ui->tcp_target_box->setText(content_.c_str());
+    content = content_;
 }
 
 DialogConnect::~DialogConnect()

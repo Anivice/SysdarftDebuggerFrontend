@@ -30,6 +30,7 @@ private slots:
 private:
     Ui::Sysdarft *ui;
     std::string content;
+    std::string ip;
     std::mutex text_content_access_mutex;
     std::unique_ptr < httplib::Client > http_client = nullptr;
     std::mutex http_client_mutex;

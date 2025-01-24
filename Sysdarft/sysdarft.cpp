@@ -42,6 +42,14 @@ void Sysdarft::on_b_Continue_clicked()
         }
 
         auto res = http_client->Post("/Continue");
+        if (res == nullptr || res->status == -1)
+        {
+            http_client.reset();
+            DialogWarning * pWarning = new DialogWarning("Debug server is not connected!", this);
+            pWarning->show();
+            return;
+        }
+
         std::string bodyString = res->body;
         json clientJson = json::parse(bodyString);
 
@@ -76,19 +84,19 @@ void Sysdarft::on_line_Command_textEdited(const QString &arg1)
 
 void Sysdarft::on_b_Connect_clicked()
 {
-    DialogConnect * pConnect = new DialogConnect(this);
+    DialogConnect * pConnect = new DialogConnect(ip, this);
     pConnect->show();
 }
 
-void Sysdarft::connect(const std::string & ip)
+void Sysdarft::connect(const std::string & ip_)
 {
     std::lock_guard lock(http_client_mutex);
     if (http_client.get() != nullptr) {
         http_client.reset();
     }
 
-    std::string ip_ = ip;
-    replace_all(ip_, " ", "");
+    ip = ip_;
+    replace_all(ip, " ", "");
 
     if (ip_.empty()) {
         DialogWarning * pWarning = new DialogWarning("Invalid IP address", this);
@@ -96,5 +104,5 @@ void Sysdarft::connect(const std::string & ip)
         return;
     }
 
-    http_client = std::make_unique < httplib::Client >(httplib::Client(ip_));
+    http_client = std::make_unique < httplib::Client >(httplib::Client(ip));
 }

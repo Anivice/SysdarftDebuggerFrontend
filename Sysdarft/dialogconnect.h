@@ -13,7 +13,7 @@ class DialogConnect : public QDialog
     Q_OBJECT
 
 public:
-    explicit DialogConnect(QWidget *parent = nullptr);
+    explicit DialogConnect(const std::string & content_, QWidget *parent = nullptr);
     ~DialogConnect();
     [[nodiscard]] std::string return_text();
 
